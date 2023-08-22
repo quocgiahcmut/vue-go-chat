@@ -14,5 +14,6 @@ func main() {
 	}
 
 	server := api.NewServer(config)
+
 	server.Start(config.RESTServerAddress)
 }

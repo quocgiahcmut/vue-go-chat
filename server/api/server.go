@@ -17,7 +17,11 @@ func NewServer(config utils.Config) *Server {
 
 	router := gin.Default()
 
+	socket := NewSocket()
+
 	router.GET("/ping", server.Pong)
+	router.GET("/socket.io/*any", gin.WrapH(socket.server))
+	router.POST("/socket.io/*any", gin.WrapH(socket.server))
 
 	server.router = router
 	return server
