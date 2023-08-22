@@ -17,11 +17,8 @@ func NewServer(config utils.Config) *Server {
 
 	router := gin.Default()
 
-	socket := NewSocket()
-
-	router.GET("/ping", server.Pong)
-	router.GET("/socket.io/*any", gin.WrapH(socket.server))
-	router.POST("/socket.io/*any", gin.WrapH(socket.server))
+	router.GET("/ping", server.pong)
+	router.GET("/socket", server.handleSocket)
 
 	server.router = router
 	return server
@@ -31,6 +28,6 @@ func (server *Server) Start(address string) error {
 	return server.router.Run(address)
 }
 
-func (server *Server) Pong(ctx *gin.Context) {
+func (server *Server) pong(ctx *gin.Context) {
 	ctx.JSON(200, "pong")
 }
